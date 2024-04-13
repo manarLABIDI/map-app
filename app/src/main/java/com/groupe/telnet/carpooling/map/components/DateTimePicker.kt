@@ -1,51 +1,55 @@
+package com.groupe.telnet.carpooling.map.components
+
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 import com.groupe.telnet.carpooling.map.utils.TimePickerDialog
-
 
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun datetime() {
-    val datePickerState = rememberDatePickerState()
-    val timePickerState = rememberTimePickerState()
+
+    val pickedDate = rememberDatePickerState()
+    val pickedTime = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+    var textFieldText by remember {mutableStateOf("")}
 
 
 
-        Text(text = "Pick up date", modifier = Modifier.padding(bottom = 16.dp))
+    //Text(text = "Pick up date", modifier = Modifier.padding(bottom = 16.dp))
 
-
-        Button(
-            onClick = {
-                showDatePicker = true
-            },
-            colors = ButtonDefaults.buttonColors(
-                SkyBlueColor,
-                contentColor = Color.White
-            ),
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = "Pick Date")
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Icon(
-                imageVector = Icons.Default.DateRange,
-                contentDescription = "Calendar Icon"
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        TextField(
+            value = textFieldText,
+            onValueChange = { textFieldText = it },
+            modifier = Modifier.weight(1f)
+                .background(color = BackgroundColor),
+            label = { Text("Pickup date") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
             )
 
-        }
-
+        )
+        Spacer(modifier = Modifier.padding(20.dp))
+        calenderButton(onClick = {
+            showDatePicker = true
+        })
+    }
 
 
 
@@ -69,7 +73,7 @@ fun datetime() {
             },
         ) {
             DatePicker(
-                state = datePickerState,
+                state = pickedDate,
             )
         }
     }
@@ -92,33 +96,25 @@ fun datetime() {
                 ) { Text("Cancel") }
             },
         ) {
-            TimePicker(state = timePickerState)
+            TimePicker(state = pickedTime)
         }
     }
 }
 
 
+
 @Composable
-fun pickUpLocationButton() {
-
-        Text(text = "Pick up location", modifier = Modifier.padding(bottom = 16.dp))
-
-        TextButton(
-            onClick = {
-                // Handle location picking action here
-            },
-            colors = ButtonDefaults.buttonColors(
-                SkyBlueColor,
-                contentColor = Color.White
-            ),
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(text = "Pick up location")
-            Icon(
-                imageVector = Icons.Default.LocationOn,
-                contentDescription = "Location Icon",
-                modifier = Modifier.padding(end = 8.dp)
-            )
-        }
-
+fun calenderButton(onClick: () -> Unit) {
+    FloatingActionButton(
+        containerColor = SkyBlueColor,
+        onClick = { onClick() },
+        modifier = Modifier.size(48.dp),
+    ) {
+        Icon(
+            tint = Color.White,
+            imageVector = Icons.Default.DateRange,
+            contentDescription = "Calendar Icon"
+        )
+    }
 }
+

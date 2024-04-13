@@ -1,6 +1,7 @@
 package com.groupe.telnet.carpooling.map
 
-import com.groupe.telnet.carpooling.map.ui.theme.CarpoolingappTheme
+
+
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
 import com.groupe.telnet.carpooling.map.components.LocationSearchBar
 import com.groupe.telnet.carpooling.map.components.NavigationBottomSheetScaffold
+import com.groupe.telnet.carpooling.map.ui.theme.MapTheme
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +40,7 @@ class MainActivity : ComponentActivity() {
         Configuration.getInstance().load(applicationContext, getSharedPreferences("OSM", Context.MODE_PRIVATE))
         Configuration.getInstance().userAgentValue = BuildConfig.BUILD_TYPE
         setContent {
-            CarpoolingappTheme {
+            MapTheme {
 
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     NavigationScreen()
@@ -51,8 +53,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationScreen() {
     Column(
-        modifier = Modifier.fillMaxSize()
-            .background(Color.LightGray),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
         Box {

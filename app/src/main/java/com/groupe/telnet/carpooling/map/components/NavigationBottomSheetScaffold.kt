@@ -5,9 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import datetime
-import pickUpLocationButton
 
 
 @Composable
@@ -17,20 +16,22 @@ fun NavigationBottomSheetScaffold(
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
     BottomSheetScaffold(
+        containerColor = Color.White,
         sheetContent = {
+
 
             Column(
                 modifier = Modifier
-                    .height(300.dp)
+                    .height(200.dp)
                     .padding(16.dp),
 
                 verticalArrangement = Arrangement.Center,
             ) {
 
-                    datetime()
+                datetime()
                 Spacer(modifier = Modifier.height(16.dp))
                 pickUpLocationButton()
-
+            }
 
                 Box(
                     modifier = Modifier
@@ -42,7 +43,7 @@ fun NavigationBottomSheetScaffold(
                     buttonComponent()
                 }
 
-            }
+
 
         },
         scaffoldState = scaffoldState,

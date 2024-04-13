@@ -2,12 +2,13 @@ package com.groupe.telnet.carpooling.map.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val Blue80 = Color(0xFF9AC7E1)
+val BlueGrey80 = Color(0xFF8AA2B6)
+val LightBlue80 = Color(0xFFA8D1E5)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val Blue40 = Color(0xFF2C6A8E)
+val BlueGrey40 = Color(0xFF295366)
+val LightBlue40 = Color(0xFF396C8A)
+
 val SkyBlueColor = Color(0xFF1C9ED9)
-val GrayColor = Color(0xFFF0F2F5)
+val BackgroundColor = Color(0xFFF0F2F5)
