@@ -16,6 +16,7 @@ import com.groupe.telnet.carpooling.map.components.NavigationBottomSheetScaffold
 import com.groupe.telnet.carpooling.map.ui.theme.MapTheme
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
+import org.osmdroid.views.MapView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

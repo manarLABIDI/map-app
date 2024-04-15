@@ -1,7 +1,6 @@
 
-Lkotlin:S108u")Either remove or fill this block of code.(€¸¦’üÿÿÿÿ8¢¡Ìùí1
-9kotlin:S1128"Remove this unused import.(¼¡‘Í8îÏÈúí1
-9kotlin:S1128"Remove this unused import.(Üº¸¡8îÏÈúí1
->kotlin:S1128"Remove this unused import.(ÈìÂ·ûÿÿÿÿ8îÏÈúí1
->kotlin:S1128"Remove this unused import.(Ô±ßàúÿÿÿÿ8îÏÈúí1
->kotlin:S1128"Remove this unused import.(£ñ¹¸ûÿÿÿÿ8îÏÈúí1
+<kotlin:S6310¡"Avoid hardcoded dispatchers.(Í¡·Ş8ğŞÊ‘î1
+<kotlin:S6310œ"Avoid hardcoded dispatchers.(²¤å÷8ğŞÊ‘î1
+Mkotlin:S108")Either remove or fill this block of code.(€¸¦’üÿÿÿÿ8ôŞÊ‘î1
+Nkotlin:S14812"*Remove this unused "scope" local variable.(Ö °Ÿÿÿÿÿÿ8ùŞÊ‘î1
+9kotlin:S1128"Remove this unused import.(ø¤ˆ8¢ˆì‘î1

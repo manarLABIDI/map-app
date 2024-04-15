@@ -24,16 +24,15 @@ fun NavigationBottomSheetScaffold(
 
             Column(
                 modifier = Modifier
-                    .height(220.dp)
+                    .height(320.dp)
                     .padding(16.dp),
 
 
             ) {
 
                 datetime()
-                pickUpLocationButton(
-
-                )
+                locationFiled("Search pick up ")
+                locationFiled("Search destination")
             }
 
                 Box(

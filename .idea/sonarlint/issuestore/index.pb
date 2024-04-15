@@ -83,3 +83,11 @@ Q.idea/sonarlint/securityhotspotstore/9/4/942ddb7024ef39d4ce9f8252b9d2ed696084e4
 Q.idea/sonarlint/securityhotspotstore/0/f/0ffd846f9becf03061759c3829506f0b7c10f3aa,6\a\6a61ba63f410475cf5a8d43c64fe4f1ea279e898
 Å
 Q.idea/sonarlint/securityhotspotstore/0/c/0c5dd08aaf53348856703c4489f1e798f1dc365b,7\c\7caa932f48e3918d6e7dfbb5045194c0a5018fe7
+ä
+Zapp/src/main/java/com/groupe/telnet/carpooling/map/components/LocationPermissionWrapper.kt,e\2\e296e4ed8893209eaa7eb72b0e2be1f9791b2bd7
+Ö
+Uapp/src/main/java/com/groupe/telnet/carpooling/map/components/CustomElevatedButton.kt,5\3\536e74a2fed0bd646fa3a1446639a8019de0de49
+v
+Fapp/src/main/java/com/groupe/telnet/carpooling/map/utils/LoggerUtil.kt,6\2\6278e95c57321b44e850976d972eea1d79b7980f
+~
+Napp/src/main/java/com/groupe/telnet/carpooling/map/components/locationField.kt,b\7\b7f13002a5044bbc571120995b2ea1f1ef48ecf2

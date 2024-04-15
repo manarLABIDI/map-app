@@ -19,7 +19,7 @@ import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun pickUpLocationButton() {
+fun locationFiled(labelText: String){
     var textFieldText by remember { mutableStateOf("") }
 
 
@@ -32,7 +32,7 @@ fun pickUpLocationButton() {
                 .weight(1f)
                 .padding(vertical = 16.dp)
                 .background(color = BackgroundColor),
-            label = { Text("Pick up location") },
+            label = { Text(labelText) },
             readOnly = true,
             colors = OutlinedTextFieldDefaults.colors(
 
