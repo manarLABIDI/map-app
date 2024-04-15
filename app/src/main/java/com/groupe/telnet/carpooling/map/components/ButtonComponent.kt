@@ -27,7 +27,7 @@ fun buttonComponent() {
         )
     ) {
         Text(
-            text = "Find cars",
+            text = "Find a ride",
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
         )

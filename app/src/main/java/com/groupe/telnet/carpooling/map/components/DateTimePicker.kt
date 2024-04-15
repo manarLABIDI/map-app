@@ -1,6 +1,8 @@
 package com.groupe.telnet.carpooling.map.components
 
+import android.app.TimePickerDialog
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -15,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 import com.groupe.telnet.carpooling.map.utils.TimePickerDialog
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 
 
 @Composable
@@ -29,26 +34,27 @@ fun datetime() {
 
 
 
-    //Text(text = "Pick up date", modifier = Modifier.padding(bottom = 16.dp))
+
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        TextField(
+        OutlinedTextField(
             value = textFieldText,
-            onValueChange = { textFieldText = it },
-            modifier = Modifier.weight(1f)
+            onValueChange = {},
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 16.dp)
                 .background(color = BackgroundColor),
-            label = { Text("Pickup date") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-            )
+            label = { Text("Pick up date") },
+            readOnly = true,
+            colors = OutlinedTextFieldDefaults.colors(
 
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent,
+
+            )
         )
         Spacer(modifier = Modifier.padding(20.dp))
-        calenderButton(onClick = {
-            showDatePicker = true
-        })
+        calenderButton(onClick = {  showDatePicker = true })
     }
 
 
@@ -61,6 +67,8 @@ fun datetime() {
                     onClick = {
                         showDatePicker = false
                         showTimePicker = true
+
+
                     }
                 ) { Text("OK") }
             },
@@ -74,6 +82,7 @@ fun datetime() {
         ) {
             DatePicker(
                 state = pickedDate,
+
             )
         }
     }
@@ -85,6 +94,13 @@ fun datetime() {
                 TextButton(
                     onClick = {
                         showTimePicker = false
+
+
+                        val selectedDate = Instant.ofEpochMilli(pickedDate.selectedDateMillis ?: 0)
+                            .atZone(ZoneId.systemDefault()).toLocalDate()
+                        val selectedHour = pickedTime.hour
+                        val selectedMinute = pickedTime.minute
+                        textFieldText = "$selectedDate AT $selectedHour:$selectedMinute"
                     }
                 ) { Text("OK") }
             },
@@ -96,9 +112,11 @@ fun datetime() {
                 ) { Text("Cancel") }
             },
         ) {
-            TimePicker(state = pickedTime)
+            TimeInput(state = pickedTime)
         }
     }
+
+
 }
 
 

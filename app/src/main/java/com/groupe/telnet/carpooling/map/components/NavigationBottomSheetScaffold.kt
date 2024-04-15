@@ -12,9 +12,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun NavigationBottomSheetScaffold(
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
+    /*onLocationClicked: ((Double, Double) -> Unit)? = null*/
 ) {
     val scaffoldState = rememberBottomSheetScaffoldState()
+    val scope = rememberCoroutineScope()
     BottomSheetScaffold(
         containerColor = Color.White,
         sheetContent = {
@@ -22,15 +24,16 @@ fun NavigationBottomSheetScaffold(
 
             Column(
                 modifier = Modifier
-                    .height(200.dp)
+                    .height(220.dp)
                     .padding(16.dp),
 
-                verticalArrangement = Arrangement.Center,
+
             ) {
 
                 datetime()
-                Spacer(modifier = Modifier.height(16.dp))
-                pickUpLocationButton()
+                pickUpLocationButton(
+
+                )
             }
 
                 Box(
