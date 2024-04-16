@@ -29,6 +29,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polyline
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import java.util.*
@@ -106,6 +107,11 @@ fun MapView() {
                     mapView.setTileSource(TileSourceFactory.MAPNIK)
                     mapView.setMultiTouchControls(true)
                     mapView.getLocalVisibleRect(Rect())
+
+                    val rotationGestureOverlay = RotationGestureOverlay(mapView)
+                    rotationGestureOverlay.isEnabled
+                    mapView.overlays.add(rotationGestureOverlay)
+
                     mapView.overlays.add(mLocationOverlay)
                     mapView.overlays.add(mapEventsOverlay)
                     val controller = mapView.controller

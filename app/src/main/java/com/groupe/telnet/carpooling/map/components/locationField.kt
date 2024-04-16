@@ -1,66 +1,66 @@
 package com.groupe.telnet.carpooling.map.components
 
+import android.Manifest
+import android.os.Build
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.groupe.telnet.carpooling.map.iconButtons.locationIcon
 import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
-import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun locationFiled(labelText: String){
+fun locationFiled(labelText: String) {
+    val context = LocalContext.current
     var textFieldText by remember { mutableStateOf("") }
 
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ){ isGranted ->
+        Toast.makeText(context,"isGranted= $isGranted",
+            Toast.LENGTH_SHORT).show()
+    }
 
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
+
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp)
+            .fillMaxWidth()
+    ) {
         OutlinedTextField(
             value = textFieldText,
             onValueChange = {},
             modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 16.dp)
                 .background(color = BackgroundColor),
             label = { Text(labelText) },
             readOnly = true,
             colors = OutlinedTextFieldDefaults.colors(
-
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
-
-                )
+            ),
+            leadingIcon = {
+                locationIcon(onClick = {
+                    launcher.launch(
+                       Manifest.permission.ACCESS_FINE_LOCATION
+                    )
+                })
+            }
         )
-        Spacer(modifier = Modifier.padding(20.dp))
 
-        locationButton(onClick = {})
-    }
 
-}
-
-@Composable
-fun locationButton(onClick: () -> Unit) {
-    FloatingActionButton(
-        containerColor = SkyBlueColor,
-        onClick = { onClick() },
-        modifier = Modifier.size(48.dp),
-    ) {
-        Icon(
-            tint = Color.White,
-            imageVector = Icons.Default.LocationOn,
-            contentDescription = "Location Icon"
-        )
     }
 }
-
-

@@ -52,6 +52,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.31.5-beta")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("androidx.compose.material:material:1.6.5")
     implementation("androidx.compose.material3:material3-window-size-class:1.2.1")
     implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.0.0-alpha05")
 

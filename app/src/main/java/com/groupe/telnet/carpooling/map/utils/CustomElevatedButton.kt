@@ -1,4 +1,4 @@
-package com.groupe.telnet.carpooling.map.components
+package com.groupe.telnet.carpooling.map.utils
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth

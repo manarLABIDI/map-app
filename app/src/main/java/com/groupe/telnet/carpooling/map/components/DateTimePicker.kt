@@ -4,6 +4,7 @@ import android.app.TimePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.groupe.telnet.carpooling.map.iconButtons.calenderButton
 import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 import com.groupe.telnet.carpooling.map.utils.TimePickerDialog
@@ -30,19 +32,17 @@ fun datetime() {
     val pickedTime = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
-    var textFieldText by remember {mutableStateOf("")}
-
-
-
-
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    var textFieldText by remember { mutableStateOf("") }
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp)
+            .fillMaxWidth()
+    ) {
         OutlinedTextField(
             value = textFieldText,
             onValueChange = {},
             modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 16.dp)
                 .background(color = BackgroundColor),
             label = { Text("Pick up date") },
             readOnly = true,
@@ -51,10 +51,13 @@ fun datetime() {
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
 
-            )
+                ),
+
+            leadingIcon = {
+                calenderButton(onClick = { showDatePicker = true })
+            }
         )
-        Spacer(modifier = Modifier.padding(20.dp))
-        calenderButton(onClick = {  showDatePicker = true })
+
     }
 
 
@@ -83,7 +86,7 @@ fun datetime() {
             DatePicker(
                 state = pickedDate,
 
-            )
+                )
         }
     }
 
@@ -117,22 +120,5 @@ fun datetime() {
     }
 
 
-}
-
-
-
-@Composable
-fun calenderButton(onClick: () -> Unit) {
-    FloatingActionButton(
-        containerColor = SkyBlueColor,
-        onClick = { onClick() },
-        modifier = Modifier.size(48.dp),
-    ) {
-        Icon(
-            tint = Color.White,
-            imageVector = Icons.Default.DateRange,
-            contentDescription = "Calendar Icon"
-        )
-    }
 }
 
