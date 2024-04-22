@@ -1,28 +1,29 @@
 package com.groupe.telnet.carpooling.map
 
 
-
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.groupe.telnet.carpooling.map.components.LocationSearchBar
-import com.groupe.telnet.carpooling.map.components.MapView
-import com.groupe.telnet.carpooling.map.components.NavigationBottomSheetScaffold
+import com.google.android.gms.location.LocationServices
+import com.groupe.telnet.carpooling.map.screens.HomeScreen
+import com.groupe.telnet.carpooling.map.screens.MainScreen
 import com.groupe.telnet.carpooling.map.ui.theme.MapTheme
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
-import org.osmdroid.views.MapView
+
 
 class MainActivity : ComponentActivity() {
-     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Configuration.getInstance().load(applicationContext, getSharedPreferences("OSM", Context.MODE_PRIVATE))
@@ -31,28 +32,18 @@ class MainActivity : ComponentActivity() {
             MapTheme {
 
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    NavigationScreen()
+                  //HomeScreen()
+                    MainScreen()
+
                 }
             }
+
         }
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
-@Composable
-fun NavigationScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Box {
-            LocationSearchBar()
-            NavigationBottomSheetScaffold {
-                MapView()
-            }
-        }
-    }
-}
+
+
 
 
 

@@ -19,7 +19,7 @@ import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 
 
 @Composable
-fun calenderButton(onClick: () -> Unit) {
+fun calenderButton() {
     Icon(
         imageVector = Icons.Default.DateRange,
         tint = SkyBlueColor,
@@ -27,6 +27,6 @@ fun calenderButton(onClick: () -> Unit) {
         modifier = Modifier
             .size(48.dp)
             .padding(horizontal = 8.dp)
-            .clickable(onClick = onClick)
     )
 }
+

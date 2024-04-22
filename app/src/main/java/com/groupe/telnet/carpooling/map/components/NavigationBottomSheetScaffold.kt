@@ -1,6 +1,6 @@
 package com.groupe.telnet.carpooling.map.components
 
-
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
@@ -9,56 +9,50 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 
 
-
+@SuppressLint("MissingPermission")
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun NavigationBottomSheetScaffold(
-    content: @Composable (PaddingValues) -> Unit
-    /*onLocationClicked: ((Double, Double) -> Unit)? = null*/
+    map: @Composable (PaddingValues) -> Unit
 ) {
+
     val scaffoldState = rememberBottomSheetScaffoldState()
     BottomSheetScaffold(
         containerColor = Color.White,
         sheetContent = {
 
 
+
             Column(
                 modifier = Modifier
-                    .height(280.dp)
+                    .height(350.dp)
                     .padding(16.dp),
 
 
-            ) {
+                ) {
 
-                datetime()
-                Spacer(modifier = Modifier.height(16.dp))
-                locationFiled("Pick up location ")
-                Spacer(modifier = Modifier.height(16.dp))
-                locationFiled("Drop off destination")
+
+                DateTime()
+                Spacer(modifier = Modifier.height(10.dp))
+                PickUpLocationField("Pick up location")
+
+                Spacer(modifier = Modifier.height(10.dp))
+                DestinationLocationField("Drop off destination")
+                Spacer(modifier = Modifier.height(10.dp))
+                buttonComponent()
+
             }
 
-                Box(
-                    modifier = Modifier
-                        .height(80.dp)
-                        .fillMaxWidth()
-                        .padding(16.dp)
-
-                ) {
-                    buttonComponent()
-                }
 
 
 
         },
         scaffoldState = scaffoldState,
         sheetSwipeEnabled = true,
-        content = content
-
+        content =map,
+        sheetPeekHeight = 100.dp
     )
-
 }
