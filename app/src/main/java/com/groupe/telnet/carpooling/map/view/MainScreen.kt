@@ -1,4 +1,4 @@
-package com.groupe.telnet.carpooling.map.screens
+package com.groupe.telnet.carpooling.map.view
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -15,7 +15,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.groupe.telnet.carpooling.map.BottomNavGraph
 import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
-import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

@@ -44,8 +44,7 @@ fun PickUpLocationField(labelText: String) {
         Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
     )
     val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-    val isLocationEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
 
     val locationPermissionState = rememberMultiplePermissionsState(permissions)
     var rationaleState by remember { mutableStateOf<RationaleState?>(null) }
@@ -54,6 +53,12 @@ fun PickUpLocationField(labelText: String) {
     val scope = rememberCoroutineScope()
     val locationClient = remember {
         LocationServices.getFusedLocationProviderClient(context)
+    }
+    // Only check if location services are enabled once
+    val isLocationEnabled = remember {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -64,30 +69,30 @@ fun PickUpLocationField(labelText: String) {
         CustomOutlinedTextField(
             labelText = labelText,
             value = locationInfo,
-            leadingIcon=  { locationIcon() },
+            leadingIcon = { locationIcon() },
             onClick = {
-                if (!isLocationEnabled) {
-                    // Redirect to location settings
-                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    context.startActivity(intent)
-                }
-                if (locationPermissionState.allPermissionsGranted) {
-                    scope.launch(Dispatchers.IO) {
-                        val priority = if (permissions.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                            Priority.PRIORITY_HIGH_ACCURACY
-                        } else {
-                            Priority.PRIORITY_BALANCED_POWER_ACCURACY
+                if (isLocationEnabled) {
+                    if (locationPermissionState.allPermissionsGranted) {
+                        scope.launch(Dispatchers.IO) {
+                            val priority = if (permissions.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                                Priority.PRIORITY_HIGH_ACCURACY
+                            } else {
+                                Priority.PRIORITY_BALANCED_POWER_ACCURACY
+                            }
+                            val result = locationClient.getCurrentLocation(
+                                priority,
+                                CancellationTokenSource().token,
+                            ).await()
+                            result?.let { fetchedLocation ->
+                                locationInfo = "${fetchedLocation.latitude}, ${fetchedLocation.longitude}"
+                            }
                         }
-                        val result = locationClient.getCurrentLocation(
-                            priority,
-                            CancellationTokenSource().token,
-                        ).await()
-                        result?.let { fetchedLocation ->
-                            locationInfo = "${fetchedLocation.latitude}, ${fetchedLocation.longitude}"
-                        }
+                    } else {
+                        showPermissionDialog = true
                     }
                 } else {
-                    showPermissionDialog = true
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    context.startActivity(intent)
                 }
             },
         )

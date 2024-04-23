@@ -1,4 +1,4 @@
-package com.groupe.telnet.carpooling.map.screens
+package com.groupe.telnet.carpooling.map.view
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

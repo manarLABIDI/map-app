@@ -6,10 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.groupe.telnet.carpooling.map.screens.BottomBarScreen
-import com.groupe.telnet.carpooling.map.screens.HomeScreen
-import com.groupe.telnet.carpooling.map.screens.ProfileScreen
-import com.groupe.telnet.carpooling.map.screens.SettingsScreen
+import com.groupe.telnet.carpooling.map.view.BottomBarScreen
+import com.groupe.telnet.carpooling.map.view.HomeScreen
+import com.groupe.telnet.carpooling.map.view.ProfileScreen
+import com.groupe.telnet.carpooling.map.view.SettingsScreen
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable

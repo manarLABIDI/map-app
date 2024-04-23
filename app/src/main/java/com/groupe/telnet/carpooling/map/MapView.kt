@@ -1,18 +1,16 @@
 package com.groupe.telnet.carpooling.map
 
-import android.content.Context.LOCATION_SERVICE
-import android.graphics.Bitmap
 import android.graphics.Rect
-import android.location.Location
-import android.location.LocationManager
 import android.widget.FrameLayout
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.preference.PreferenceManager
@@ -41,19 +39,13 @@ fun MapView() {
         }
     }
     val tappedLocation = remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
-    val personIcon = remember { mutableStateOf<Bitmap?>(null) }
 
-
-    var mapCenter: IGeoPoint by rememberSaveable { mutableStateOf(GeoPoint(36.84924, 10.19023)) }
-    val startMarker = remember {
-        Marker(mapView).apply {
-            icon = ContextCompat.getDrawable(context, R.drawable.ic_location)
-            setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-            title = "Marker Title"
-            snippet = "Marker Comment"
-        }
+    val painter  = painterResource(R.drawable.ping).apply {
+         Modifier
+            .size(30.dp)
     }
+    var mapCenter: IGeoPoint by rememberSaveable { mutableStateOf(GeoPoint(36.84924, 10.19023)) }
+
     val mGpsMyLocationProvider = GpsMyLocationProvider(context)
     val myLocOverlay = MyLocationNewOverlay(
         mGpsMyLocationProvider, mapView
@@ -69,6 +61,19 @@ fun MapView() {
 
                 override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
                     p?.let {
+
+                        mapView.overlays.forEach {
+                            if (it is Marker) {
+                                mapView.overlays.remove(it)
+                            }
+                        }
+                        return true
+                    }
+                    return false
+                }
+
+                override fun longPressHelper(p: GeoPoint?): Boolean {
+                    p?.let {
                         tappedLocation.value = "Latitude: ${p.latitude}, Longitude: ${p.longitude}"
 
                         mapView.overlays.forEach {
@@ -80,16 +85,11 @@ fun MapView() {
                             context,
                             p
                         )
-                       // Toast.makeText(context, "${p.latitude} ${p.longitude}", Toast.LENGTH_LONG).show()
+                        // Toast.makeText(context, "${p.latitude} ${p.longitude}", Toast.LENGTH_LONG).show()
 
 
                         return true
                     }
-                    return false
-                }
-
-                override fun longPressHelper(p: GeoPoint?): Boolean {
-
 
                     return false
                 }

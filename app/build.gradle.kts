@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -92,6 +93,22 @@ dependencies {
 
 //    implementation("io.github.raamcosta.compose-destinations:core:1.5.9-beta")
 //    ksp( "io.github.raamcosta.compose-destinations:ksp:1.5.9-beta")
+
+    // Add Retrofit and Gson converter dependencies
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
+    implementation("io.reactivex.rxjava3:rxjava:3.0.0")
+
+    //dagger
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.47")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    ksp("com.google.dagger:hilt-compiler:2.47")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    ksp("androidx.hilt:hilt-compiler:1.0.0")
+
 
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")

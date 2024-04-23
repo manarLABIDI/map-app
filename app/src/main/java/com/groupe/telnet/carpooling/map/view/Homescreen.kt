@@ -1,4 +1,4 @@
-package com.groupe.telnet.carpooling.map.screens
+package com.groupe.telnet.carpooling.map.view
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.groupe.telnet.carpooling.map.MapView
-import com.groupe.telnet.carpooling.map.components.LocationSearchBar
 import com.groupe.telnet.carpooling.map.components.NavigationBottomSheetScaffold
+import com.groupe.telnet.carpooling.map.searchLocation.LocationSearchBar
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
