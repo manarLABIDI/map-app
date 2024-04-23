@@ -11,4 +11,5 @@ val BlueGrey40 = Color(0xFF295366)
 val LightBlue40 = Color(0xFF396C8A)
 
 val SkyBlueColor = Color(0xFF1C9ED9)
+val TextColor = Color(0xFF637D87)
 val BackgroundColor = Color(0xFFF0F2F5)

@@ -1,54 +1,45 @@
 package com.groupe.telnet.carpooling.map.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.groupe.telnet.carpooling.map.iconButtons.calenderButton
+import com.groupe.telnet.carpooling.map.iconButtons.locationIcon
 import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
-import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
+import com.groupe.telnet.carpooling.map.utils.CustomOutlinedTextField
 import com.groupe.telnet.carpooling.map.utils.TimePickerDialog
+import java.time.Instant
+import java.time.ZoneId
 
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun datetime() {
+fun DateTime() {
 
     val pickedDate = rememberDatePickerState()
     val pickedTime = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
-    var textFieldText by remember {mutableStateOf("")}
+    var dateFieldText by remember { mutableStateOf("") }
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp)
+            .fillMaxWidth()
+    ) {
 
+        CustomOutlinedTextField(
+            labelText = "Pick up date",
+            value = dateFieldText,
+            leadingIcon=  { calenderButton() },
+            onClick = {showDatePicker = true })
 
-
-    //Text(text = "Pick up date", modifier = Modifier.padding(bottom = 16.dp))
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        TextField(
-            value = textFieldText,
-            onValueChange = { textFieldText = it },
-            modifier = Modifier.weight(1f)
-                .background(color = BackgroundColor),
-            label = { Text("Pickup date") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-            )
-
-        )
-        Spacer(modifier = Modifier.padding(20.dp))
-        calenderButton(onClick = {
-            showDatePicker = true
-        })
     }
 
 
@@ -61,6 +52,8 @@ fun datetime() {
                     onClick = {
                         showDatePicker = false
                         showTimePicker = true
+
+
                     }
                 ) { Text("OK") }
             },
@@ -74,7 +67,8 @@ fun datetime() {
         ) {
             DatePicker(
                 state = pickedDate,
-            )
+
+                )
         }
     }
 
@@ -85,6 +79,13 @@ fun datetime() {
                 TextButton(
                     onClick = {
                         showTimePicker = false
+
+
+                        val selectedDate = Instant.ofEpochMilli(pickedDate.selectedDateMillis ?: 0)
+                            .atZone(ZoneId.systemDefault()).toLocalDate()
+                        val selectedHour = pickedTime.hour
+                        val selectedMinute = pickedTime.minute
+                        dateFieldText = "$selectedDate AT $selectedHour:$selectedMinute"
                     }
                 ) { Text("OK") }
             },
@@ -96,25 +97,10 @@ fun datetime() {
                 ) { Text("Cancel") }
             },
         ) {
-            TimePicker(state = pickedTime)
+            TimeInput(state = pickedTime)
         }
     }
-}
 
 
-
-@Composable
-fun calenderButton(onClick: () -> Unit) {
-    FloatingActionButton(
-        containerColor = SkyBlueColor,
-        onClick = { onClick() },
-        modifier = Modifier.size(48.dp),
-    ) {
-        Icon(
-            tint = Color.White,
-            imageVector = Icons.Default.DateRange,
-            contentDescription = "Calendar Icon"
-        )
-    }
 }
 
