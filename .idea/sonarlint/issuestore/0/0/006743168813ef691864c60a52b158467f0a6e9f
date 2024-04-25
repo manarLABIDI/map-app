@@ -1,5 +1,7 @@
 
-Bkotlin:S125X"Remove this commented out code.(Ô¶ı¯üÿÿÿÿ8çÔ†Ôğ1
-Ckotlin:S125’"Remove this commented out code.(ª–×Ìüÿÿÿÿ8¼†Ôğ1
-Mkotlin:S108…")Either remove or fill this block of code.(€¸¦’üÿÿÿÿ8Â†Ôğ1
-Pkotlin:S1481+",Remove this unused "painter" local variable.(¼«©ßıÿÿÿÿ8Å†Ôğ1
+=kotlin:S1250"Remove this commented out code.(è’Úå8‡Œ¦¡ñ1
+Bkotlin:S125}"Remove this commented out code.(ûÊº÷şÿÿÿÿ8°„¡ñ1
+Ckotlin:S125"Remove this commented out code.(ª–×Ìüÿÿÿÿ8ÏÉã’ñ1
+Mkotlin:S108")Either remove or fill this block of code.(€¸¦’üÿÿÿÿ8ÔÉã’ñ1
+>kotlin:S1128"Remove this unused import.(ïö°Ìøÿÿÿÿ8–Œ¦¡ñ1
+>kotlin:S1128"Remove this unused import.(ÊúİÇüÿÿÿÿ8–Œ¦¡ñ1

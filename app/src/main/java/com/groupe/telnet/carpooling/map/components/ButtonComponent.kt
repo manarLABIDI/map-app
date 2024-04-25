@@ -13,11 +13,11 @@ import androidx.compose.ui.unit.dp
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 
 @Composable
-fun buttonComponent() {
+fun buttonComponent(onClick: () -> Unit) {
 
     Button(
         onClick = {
-            /* TODO()*/
+            onClick()
         },
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),

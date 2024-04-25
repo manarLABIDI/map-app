@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,13 +23,15 @@ import com.groupe.telnet.carpooling.map.R
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 import com.groupe.telnet.carpooling.map.ui.theme.TextColor
 import kotlinx.coroutines.launch
+import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
 import retrofit2.HttpException
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
  fun LocationSearchBar(
-    vm: LocationSearchViewModel = hiltViewModel()
+    vm: LocationSearchViewModel = hiltViewModel(),
+     onLocation : (GeoPoint)-> Unit
  ) {
     val searchResults by vm.searchResults.collectAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -96,10 +99,16 @@ import retrofit2.HttpException
         content = {
             LazyColumn {
                 items(searchResults) { result ->
+                    val latitude = result.lat.toDouble()
+                    val longitude = result.lon.toDouble()
+                    var geoPoint =GeoPoint(latitude, longitude)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { /* Handle click event */ }
+                            .clickable {
+                                onLocation(geoPoint)
+                                active = false
+                            }
                             .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -113,7 +122,7 @@ import retrofit2.HttpException
                         Spacer(modifier = Modifier.width(8.dp))
 
                         Icon(
-                            painter = painterResource(id = R.drawable.itineraire),
+                            painter = painterResource(id = R.drawable.ping),
                             contentDescription = "Location Icon",
                             tint = SkyBlueColor,
                             modifier = Modifier

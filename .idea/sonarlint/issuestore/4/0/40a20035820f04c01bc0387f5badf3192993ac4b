@@ -1,5 +1,8 @@
 
-@kotlin:S6310L"Avoid hardcoded dispatchers.(„¶­–úÿÿÿÿ8ŸÅùÁğ1
-Xkotlin:S1481."4Remove this unused "locationManager" local variable.(âßÃ—ûÿÿÿÿ8¤ÅùÁğ1
->kotlin:S1128"Remove this unused import.(œô”şúÿÿÿÿ8¥ÅùÁğ1
-pkotlin:S3776("RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(ïŞ8§ÅùÁğ1
+@kotlin:S6310O"Avoid hardcoded dispatchers.(„¶­–úÿÿÿÿ8–ò‚“ñ1
+Ukotlin:S1481="6Remove this unused "isLocationEnabled" local variable.( ëá“8›ò‚“ñ1
+8kotlin:S1128"Remove this unused import.(Ş‚½8ò‚“ñ1
+>kotlin:S1128"Remove this unused import.(œô”şúÿÿÿÿ8ò‚“ñ1
+9kotlin:S1128
+"Remove this unused import.(È˜8ò‚“ñ1
+qkotlin:S3776*"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(æÄ¤8Ÿò‚“ñ1

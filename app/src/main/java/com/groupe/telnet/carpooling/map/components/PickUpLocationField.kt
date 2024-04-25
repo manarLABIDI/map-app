@@ -29,6 +29,8 @@ import com.groupe.telnet.carpooling.map.utils.CustomOutlinedTextField
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import org.osmdroid.util.GeoPoint
+import java.text.DecimalFormat
 
 @SuppressLint("PermissionLaunchedDuringComposition")
 @RequiresPermission(
@@ -37,15 +39,16 @@ import kotlinx.coroutines.tasks.await
 @RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
-fun PickUpLocationField(labelText: String) {
+fun PickUpLocationField(
+    pickLocation : (GeoPoint) -> Unit,
+    labelText: String) {
 
     val context = LocalContext.current
     val permissions = listOf(
         Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
     )
-    val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-
+    val decimalFormat = DecimalFormat("#.#####")
     val locationPermissionState = rememberMultiplePermissionsState(permissions)
     var rationaleState by remember { mutableStateOf<RationaleState?>(null) }
     var showPermissionDialog by remember { mutableStateOf(false) }
@@ -71,7 +74,7 @@ fun PickUpLocationField(labelText: String) {
             value = locationInfo,
             leadingIcon = { locationIcon() },
             onClick = {
-                if (isLocationEnabled) {
+
                     if (locationPermissionState.allPermissionsGranted) {
                         scope.launch(Dispatchers.IO) {
                             val priority = if (permissions.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -84,19 +87,21 @@ fun PickUpLocationField(labelText: String) {
                                 CancellationTokenSource().token,
                             ).await()
                             result?.let { fetchedLocation ->
-                                locationInfo = "${fetchedLocation.latitude}, ${fetchedLocation.longitude}"
+                                locationInfo = "${decimalFormat.format(fetchedLocation.latitude)}, ${decimalFormat.format(fetchedLocation.longitude)}"
+                                val geoPoint = GeoPoint(fetchedLocation.latitude, fetchedLocation.longitude)
+                                pickLocation(geoPoint)
                             }
+
                         }
                     } else {
                         showPermissionDialog = true
                     }
-                } else {
-                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    context.startActivity(intent)
-                }
+
+
             },
         )
     }
+
 
     if (showPermissionDialog) {
         if (locationPermissionState.shouldShowRationale) {

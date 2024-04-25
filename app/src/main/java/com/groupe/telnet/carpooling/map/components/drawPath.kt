@@ -17,7 +17,7 @@ import java.util.ArrayList
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun DrawPath(mapView: MapView, startPoint: GeoPoint, endPoint: GeoPoint) {
+fun drawPath(mapView: MapView, startPoint: GeoPoint, endPoint: GeoPoint) {
     val roadManager = OSRMRoadManager(mapView.context, Configuration.getInstance().userAgentValue)
     val waypoints = ArrayList<GeoPoint>()
     waypoints.add(startPoint)
@@ -32,6 +32,7 @@ fun DrawPath(mapView: MapView, startPoint: GeoPoint, endPoint: GeoPoint) {
 
             withContext(Dispatchers.Main) {
                 val roadPolyline = Polyline().apply {
+
                     outlinePaint.color = SkyBlueColor.toArgb()
                     road.mRouteHigh.forEach { geoPoint ->
                         addPoint(geoPoint)
@@ -45,4 +46,5 @@ fun DrawPath(mapView: MapView, startPoint: GeoPoint, endPoint: GeoPoint) {
             e.printStackTrace()
         }
     }
+
 }
