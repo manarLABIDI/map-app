@@ -2,11 +2,9 @@ package com.groupe.telnet.carpooling.map.components
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -14,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import com.groupe.telnet.carpooling.map.MapView
 import kotlinx.coroutines.launch
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -80,7 +77,7 @@ fun NavigationBottomSheetScaffold(
                     pinnedLocation
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                buttonComponent {
+                ValidationButton {
                     shouldDrawPath = true
                 }
             }
