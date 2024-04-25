@@ -2063,3 +2063,5 @@ Q.idea/sonarlint/securityhotspotstore/f/e/fecf743076f7ca70ad0eccaed94b394e07041a
 Q.idea/sonarlint/securityhotspotstore/f/e/fe3bb6766eded948b41ab86fa8b17fe8f6539997,0\a\0a0fb57f2cdb16ccf87f441dbf27e8b36f1b3d0f
 y
 Iapp/src/main/java/com/groupe/telnet/carpooling/map/components/drawPath.kt,a\a\aa6987116c233743d39868a8cd6835cbae77bc5b
+Å
+Qapp/src/main/java/com/groupe/telnet/carpooling/map/components/ValidationButton.kt,8\1\813c47925701fbe0ddc977ae3dfa01f63aad9589

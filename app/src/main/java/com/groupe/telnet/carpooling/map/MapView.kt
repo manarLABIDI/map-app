@@ -45,7 +45,7 @@ fun MapView(
             )
         }
 
-    //var mapCenter: IGeoPoint by rememberSaveable { mutableStateOf(GeoPoint(36.84924, 10.19023)) }
+    var mapCenter: IGeoPoint by rememberSaveable { mutableStateOf(GeoPoint(36.84924, 10.19023)) }
 
     val mGpsMyLocationProvider = GpsMyLocationProvider(context)
     val myLocOverlay = MyLocationNewOverlay(
@@ -122,7 +122,7 @@ fun MapView(
 
 
                     val controller = mapView.controller
-                   // controller.setCenter(mapCenter)
+                   controller.setCenter(mapCenter)
                     controller.setZoom(16.0)
                     mapView.minZoomLevel = 10.0
                     mapView.maxZoomLevel = 40.0
