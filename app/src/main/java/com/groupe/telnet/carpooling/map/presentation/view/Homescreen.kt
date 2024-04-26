@@ -27,7 +27,7 @@ fun HomeScreen() {
                 selectedLocation.value = searchedLocation
 
 
-            }, pinnedLocation, mapView) { paddingValues ->
+            }, pinnedLocation) { paddingValues ->
                 Box(Modifier.padding(paddingValues)) {
                     MapView(mapView, pinLocation = { pinPoint ->
                         pinnedLocation.value = pinPoint

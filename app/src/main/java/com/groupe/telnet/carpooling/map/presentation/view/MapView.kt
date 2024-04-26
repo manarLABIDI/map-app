@@ -12,11 +12,14 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.preference.PreferenceManager
 import com.groupe.telnet.carpooling.map.R
 import com.groupe.telnet.carpooling.map.common.iconButtons.addMarkertoMap
+import com.groupe.telnet.carpooling.map.presentation.viewModel.RoadPathViewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -35,6 +38,8 @@ fun MapView(
     pinLocation : (GeoPoint) -> Unit,
     selectedLocation: State<GeoPoint?>
 ) {
+
+    val  roadPathViewModel: RoadPathViewModel = hiltViewModel()
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
@@ -44,7 +49,16 @@ fun MapView(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
             )
+     }
+
+    LaunchedEffect(key1 = true) {
+        roadPathViewModel.polylineFlow.collectLatest { polyline ->
+
+            mapView.overlays.removeAll { it is Polyline }
+            mapView.overlays.add(polyline)
+            mapView.invalidate()
         }
+    }
 
     var mapCenter: IGeoPoint by rememberSaveable { mutableStateOf(GeoPoint(36.84924, 10.19023)) }
 
@@ -71,6 +85,7 @@ fun MapView(
                     p?.let {
                        val  tappedLocation = p
 
+                        mapView.overlays.removeAll { it is Polyline }
                         mapView.overlays.forEach {
                             if (it is Marker) {
                                 mapView.overlays.remove(it)
@@ -106,9 +121,6 @@ fun MapView(
 
         }
     }
-
-
-
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -155,10 +167,6 @@ fun MapView(
 
 
     AndroidView(factory = { mapView })
-
-//    val startPoint = GeoPoint(36.84924, 10.19023)
-//    val endPoint =  GeoPoint(36.8586, 10.19033)
-//    drawPath(mapView, startPoint, endPoint)
 
 }
 
