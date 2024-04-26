@@ -9,7 +9,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.groupe.telnet.carpooling.map.iconButtons.locationIcon
+import com.groupe.telnet.carpooling.map.common.iconButtons.locationIcon
 import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
 import com.groupe.telnet.carpooling.map.ui.theme.TextColor
 
