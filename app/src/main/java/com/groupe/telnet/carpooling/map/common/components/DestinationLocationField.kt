@@ -20,17 +20,16 @@ import java.text.DecimalFormat
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun DestinationLocationField(
-    //locationViewModel: LocationViewModel = hiltViewModel(),
     dropLocation : (GeoPoint) -> Unit,
     labelText: String,
     pinnedLocation : State<GeoPoint?>,
-    selectedLocation: State<GeoPoint?>,
-    onShowSearchBar: (Boolean) -> Unit
+    selectedLocation: State<GeoPoint?>
 
 ) {
-
+    val locationSearchViewModel: LocationSearchViewModel = hiltViewModel()
     val decimalFormat = DecimalFormat("#.#####")
     var locationInfo by remember { mutableStateOf("") }
+
     LaunchedEffect(selectedLocation.value) {
         val location = selectedLocation.value
         if (location != null) {
@@ -60,8 +59,8 @@ fun DestinationLocationField(
             value = locationInfo,
             leadingIcon = { locationIcon() },
             onClick = {
-                onShowSearchBar(true)
 
+                locationSearchViewModel.showSearchBar()
             },
         )
     }

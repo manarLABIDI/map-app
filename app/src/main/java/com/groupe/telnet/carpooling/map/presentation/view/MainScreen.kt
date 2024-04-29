@@ -7,14 +7,15 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.groupe.telnet.carpooling.map.BottomNavGraph
-import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
+import com.groupe.telnet.carpooling.map.navigation.BottomNavGraph
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 
 
@@ -22,13 +23,19 @@ import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun MainScreen() {
+    val bottomBarState = rememberSaveable { mutableStateOf(true) }
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = { BottomBar(
-            navController = navController)
+        bottomBar = {
+            if (bottomBarState.value) {
+                BottomBar(
+                    navController = navController
+                )
+            }
+
         }
     ) {
-        BottomNavGraph(navController = navController)
+        BottomNavGraph(navController = navController, bottomBarState)
     }
 }
 
@@ -43,7 +50,7 @@ fun BottomBar(navController: NavHostController) {
     val currentDestination = navBackStackEntry?.destination
 
     BottomNavigation(
-        backgroundColor = BackgroundColor
+        backgroundColor = Color.White
     ) {
         screens.forEach { screen ->
             val isSelected = currentDestination?.hierarchy?.any {
@@ -61,23 +68,18 @@ fun BottomBar(navController: NavHostController) {
 @Composable
 fun RowScope.AddItem(
     screen: BottomBarScreen,
-    isSelected: Boolean, // New parameter to track if this item is selected
+    isSelected: Boolean,
     navController: NavHostController
 ) {
     BottomNavigationItem(
         label = {
             Text(
                 text = screen.title,
-                color =  if (isSelected) SkyBlueColor else Color.Gray
+                color = SkyBlueColor
             )
         },
-        icon = {
-            Icon(
-                imageVector = screen.icon,
-                contentDescription = "Navigation Icon",
-                tint = if (isSelected) SkyBlueColor else Color.Gray
-            )
-        },
+        icon = screen.icon,
+
         selected = isSelected,
         unselectedContentColor = LocalContentColor.current.copy(alpha = ContentAlpha.disabled),
         onClick = {

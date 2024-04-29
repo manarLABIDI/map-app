@@ -12,12 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.groupe.telnet.carpooling.map.presentation.view.LocationSearchBar
+import com.groupe.telnet.carpooling.map.presentation.viewModel.LocationSearchViewModel
 import com.groupe.telnet.carpooling.map.presentation.viewModel.RoadPathViewModel
 import kotlinx.coroutines.launch
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.Polyline
 
 
 @SuppressLint("MissingPermission")
@@ -30,16 +28,16 @@ fun NavigationBottomSheetScaffold(
     map: @Composable (PaddingValues) -> Unit
 ) {
     val roadPathViewModel: RoadPathViewModel = hiltViewModel()
-
+    val locationSearchViewModel: LocationSearchViewModel = hiltViewModel()
 
     val selectedLocation = remember { mutableStateOf<GeoPoint?>(null) }
-    var showSearchBar by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val startPoint = remember { mutableStateOf<GeoPoint?>(null) }
     val endPoint = remember { mutableStateOf<GeoPoint?>(null) }
-    var shouldDrawPath by remember { mutableStateOf(false) }
+    val isSearchBarVisible by locationSearchViewModel.isSearchBarVisible.collectAsState()
     val scaffoldState = rememberBottomSheetScaffoldState()
-    if (showSearchBar) {
+
+    if (isSearchBarVisible) {
         LocationSearchBar(
             onLocation = { geoPoint ->
                 selectedLocation.value = geoPoint
@@ -69,7 +67,7 @@ fun NavigationBottomSheetScaffold(
 
             Column(
                 modifier = Modifier
-                    .height(350.dp)
+                    .height(300.dp)
                     .padding(16.dp),
 
 
@@ -93,15 +91,11 @@ fun NavigationBottomSheetScaffold(
                     },
                     "Drop off destination",
                     selectedLocation,
-                    pinnedLocation,
-                    onShowSearchBar = { show ->
-                        showSearchBar = show
-
-                    }
+                    pinnedLocation
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 ValidationButton {
-                    showSearchBar = false
+                    locationSearchViewModel.hideSearchBar()
                     if (startPoint.value != null && endPoint.value != null) {
                         roadPathViewModel.drawPath(startPoint.value!!, endPoint.value!!)
                     }
@@ -113,23 +107,9 @@ fun NavigationBottomSheetScaffold(
 
         scaffoldState = scaffoldState,
         sheetSwipeEnabled = true,
-        content = map,
-        sheetPeekHeight = 100.dp
+        content = map
     )
 
-//    LaunchedEffect(endPoint.value) {
-//        if (startPoint.value != null && endPoint.value != null) {
-//            mapView.overlays.removeAll { it is Polyline }
-//            shouldDrawPath = true
-//        }
-//    }
-//    if (shouldDrawPath) {
-//        if (startPoint.value != null && endPoint.value != null) {
-//            mapView.overlays.removeAll { it is Polyline }
-//            drawPath(mapView, startPoint.value!!, endPoint.value!!)
-//        }
-//
-//    }
 
 }
 

@@ -1,8 +1,0 @@
-
-@kotlin:S6310O"Avoid hardcoded dispatchers.(„¶­–ϊÿÿÿÿ8–ς‚“ρ1
-Ukotlin:S1481="6Remove this unused "isLocationEnabled" local variable.( λα“8›ς‚“ρ1
-8kotlin:S1128"Remove this unused import.(ή‚½8ς‚“ρ1
->kotlin:S1128"Remove this unused import.(τ”ώϊÿÿÿÿ8ς‚“ρ1
-9kotlin:S1128
-"Remove this unused import.(Θ8ς‚“ρ1
-qkotlin:S3776*"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(ζΔ¤8ς‚“ρ1

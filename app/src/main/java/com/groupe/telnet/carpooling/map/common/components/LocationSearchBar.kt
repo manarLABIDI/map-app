@@ -1,4 +1,4 @@
-package com.groupe.telnet.carpooling.map.presentation.view
+package com.groupe.telnet.carpooling.map.common.components
 
 import android.util.Log
 import androidx.compose.foundation.clickable
@@ -20,7 +20,6 @@ import com.groupe.telnet.carpooling.map.R
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 import com.groupe.telnet.carpooling.map.ui.theme.TextColor
 import com.groupe.telnet.carpooling.map.presentation.viewModel.LocationSearchViewModel
-import kotlinx.coroutines.launch
 import org.osmdroid.util.GeoPoint
 import retrofit2.HttpException
 
@@ -32,7 +31,6 @@ import retrofit2.HttpException
  ) {
 
     val searchResults by vm.searchResults.collectAsState()
-    val coroutineScope = rememberCoroutineScope()
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
     val defaultSearchbarHorizontalPadding = 10.dp
@@ -54,14 +52,12 @@ import retrofit2.HttpException
             text = it
         },
         onSearch = {
-            coroutineScope.launch {
-                try {
-                    vm.searchLocation(text) // Perform the search
-                } catch (e: HttpException) {
-                    Log.e("LocationSearchBar", "HTTP error occurred: ${e.code()}", e) // Log HTTP exceptions
-                } catch (e: Exception) {
-                    Log.e("LocationSearchBar", "An error occurred during search", e) // Log other exceptions
-                }
+            try {
+                vm.searchLocation(text) // Perform the search
+            } catch (e: HttpException) {
+                Log.e("LocationSearchBar", "HTTP error occurred: ${e.code()}", e) // Log HTTP exceptions
+            } catch (e: Exception) {
+                Log.e("LocationSearchBar", "An error occurred during search", e) // Log other exceptions
             }
         },
         active = active,

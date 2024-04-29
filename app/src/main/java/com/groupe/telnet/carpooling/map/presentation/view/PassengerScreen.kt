@@ -7,12 +7,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.groupe.telnet.carpooling.map.common.components.MapComposable
 import com.groupe.telnet.carpooling.map.common.components.NavigationBottomSheetScaffold
 import org.osmdroid.util.GeoPoint
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-fun HomeScreen() {
+fun PassengerScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -29,7 +30,7 @@ fun HomeScreen() {
 
             }, pinnedLocation) { paddingValues ->
                 Box(Modifier.padding(paddingValues)) {
-                    MapView(mapView, pinLocation = { pinPoint ->
+                    MapComposable( pinLocation = { pinPoint ->
                         pinnedLocation.value = pinPoint
                     }, selectedLocation)
                 }
