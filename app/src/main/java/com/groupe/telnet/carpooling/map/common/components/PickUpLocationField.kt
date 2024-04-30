@@ -2,8 +2,6 @@ package com.groupe.telnet.carpooling.map.common.components
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.location.LocationManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -14,52 +12,35 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
 import com.groupe.telnet.carpooling.map.common.iconButtons.locationIcon
 import com.groupe.telnet.carpooling.map.common.permission.PermissionRationaleDialog
 import com.groupe.telnet.carpooling.map.common.permission.RationaleState
+import com.groupe.telnet.carpooling.map.presentation.viewModel.PickUpLocationViewModel
 import com.groupe.telnet.carpooling.map.utils.CustomOutlinedTextField
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import org.osmdroid.util.GeoPoint
-import java.text.DecimalFormat
-
 @SuppressLint("PermissionLaunchedDuringComposition")
 @RequiresPermission(
     anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION],
 )
 @RequiresApi(Build.VERSION_CODES.Q)
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun PickUpLocationField(
-    pickLocation : (GeoPoint) -> Unit,
-    labelText: String) {
+    labelText: String,
+    pickUpLocationViewModel: PickUpLocationViewModel = hiltViewModel()
+) {
 
     val context = LocalContext.current
     val permissions = listOf(
         Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
     )
-
-    val decimalFormat = DecimalFormat("#.#####")
     val locationPermissionState = rememberMultiplePermissionsState(permissions)
     var rationaleState by remember { mutableStateOf<RationaleState?>(null) }
     var showPermissionDialog by remember { mutableStateOf(false) }
-    var locationInfo by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
-    val locationClient = remember {
-        LocationServices.getFusedLocationProviderClient(context)
-    }
-    // Only check if location services are enabled once
-    val isLocationEnabled = remember {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
+    val locationInfo by pickUpLocationViewModel.locationInfo
+
     Surface(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -71,31 +52,17 @@ fun PickUpLocationField(
             value = locationInfo,
             leadingIcon = { locationIcon() },
             onClick = {
+                if (locationPermissionState.allPermissionsGranted) {
 
-                    if (locationPermissionState.allPermissionsGranted) {
-                        scope.launch(Dispatchers.IO) {
-                            val priority = if (permissions.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                                Priority.PRIORITY_HIGH_ACCURACY
-                            } else {
-                                Priority.PRIORITY_BALANCED_POWER_ACCURACY
-                            }
-                            val result = locationClient.getCurrentLocation(
-                                priority,
-                                CancellationTokenSource().token,
-                            ).await()
-                            result?.let { fetchedLocation ->
-                                locationInfo = "${decimalFormat.format(fetchedLocation.latitude)}, ${decimalFormat.format(fetchedLocation.longitude)}"
-                                val geoPoint = GeoPoint(fetchedLocation.latitude, fetchedLocation.longitude)
-                                pickLocation(geoPoint)
-                            }
-
-                        }
-                    } else {
-                        showPermissionDialog = true
-                    }
+                    pickUpLocationViewModel.fetchCurrentLocation(context)
 
 
-            },
+                } else {
+                    showPermissionDialog = true
+                }
+
+
+            }
         )
     }
 

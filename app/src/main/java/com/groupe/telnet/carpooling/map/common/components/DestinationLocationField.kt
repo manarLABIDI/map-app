@@ -11,43 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.groupe.telnet.carpooling.map.common.iconButtons.locationIcon
+import com.groupe.telnet.carpooling.map.presentation.viewModel.DestinationLocationViewModel
 import com.groupe.telnet.carpooling.map.presentation.viewModel.LocationSearchViewModel
-import com.groupe.telnet.carpooling.map.presentation.viewModel.LocationViewModel
+import com.groupe.telnet.carpooling.map.presentation.viewModel.MapViewModel
 import com.groupe.telnet.carpooling.map.utils.CustomOutlinedTextField
-import org.osmdroid.util.GeoPoint
-import java.text.DecimalFormat
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun DestinationLocationField(
-    dropLocation : (GeoPoint) -> Unit,
     labelText: String,
-    pinnedLocation : State<GeoPoint?>,
-    selectedLocation: State<GeoPoint?>
+    destinationLocationViewModel :  DestinationLocationViewModel = hiltViewModel()
 
 ) {
+
     val locationSearchViewModel: LocationSearchViewModel = hiltViewModel()
-    val decimalFormat = DecimalFormat("#.#####")
-    var locationInfo by remember { mutableStateOf("") }
+    val destinationLocation by destinationLocationViewModel.locationInfo
 
-    LaunchedEffect(selectedLocation.value) {
-        val location = selectedLocation.value
-        if (location != null) {
-            locationInfo = "${decimalFormat.format(location.latitude)}  ${decimalFormat.format(location.longitude)}"
-            val geoPoint = GeoPoint(location.latitude, location.longitude)
-            dropLocation(geoPoint)
 
-        }
-    }
-    LaunchedEffect(pinnedLocation.value) {
-        val location = pinnedLocation.value
-        if (location != null) {
-            locationInfo = "${decimalFormat.format(location.latitude)}, ${decimalFormat.format(location.longitude)}"
-            val geoPoint = GeoPoint(location.latitude, location.longitude)
-            dropLocation(geoPoint)
-
-        }
-    }
     Surface(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
@@ -56,7 +36,7 @@ fun DestinationLocationField(
     ) {
         CustomOutlinedTextField(
             labelText = labelText,
-            value = locationInfo,
+            value = destinationLocation,
             leadingIcon = { locationIcon() },
             onClick = {
 

@@ -32,7 +32,7 @@ class LocationSearchViewModel @Inject constructor(
             Log.d("LocationSearchViewModel", "Received ${results.size} results")
         } catch (e: Exception) {
             Log.e("LocationSearchViewModel", "Error searching location", e)
-            _searchResults.value = emptyList() // Reset on error
+            _searchResults.value = emptyList()
         }
     }
 

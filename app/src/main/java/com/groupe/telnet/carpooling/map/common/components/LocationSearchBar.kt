@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.groupe.telnet.carpooling.map.R
+import com.groupe.telnet.carpooling.map.presentation.viewModel.DestinationLocationViewModel
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 import com.groupe.telnet.carpooling.map.ui.theme.TextColor
 import com.groupe.telnet.carpooling.map.presentation.viewModel.LocationSearchViewModel
@@ -26,13 +27,12 @@ import retrofit2.HttpException
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
  fun LocationSearchBar(
-    vm: LocationSearchViewModel = hiltViewModel(),
-    onLocation : (GeoPoint)-> Unit
+    vm: LocationSearchViewModel = hiltViewModel()
  ) {
-
+    val destinationLocationViewModel : DestinationLocationViewModel = hiltViewModel()
     val searchResults by vm.searchResults.collectAsState()
     var text by remember { mutableStateOf("") }
-    var active by remember { mutableStateOf(false) }
+    var active by remember { mutableStateOf(true) }
     val defaultSearchbarHorizontalPadding = 10.dp
     val searchBarColors = SearchBarDefaults.colors(
         containerColor = Color.White,
@@ -46,14 +46,14 @@ import retrofit2.HttpException
     SearchBar(
         colors = searchBarColors,
         modifier = Modifier.fillMaxWidth()
-            .padding(PaddingValues(searchbarHorizontalPadding, 0.dp)),
+            .padding(PaddingValues( 0.dp)),
         query = text,
         onQueryChange = {
             text = it
         },
         onSearch = {
             try {
-                vm.searchLocation(text) // Perform the search
+                vm.searchLocation(text)
             } catch (e: HttpException) {
                 Log.e("LocationSearchBar", "HTTP error occurred: ${e.code()}", e) // Log HTTP exceptions
             } catch (e: Exception) {
@@ -95,12 +95,13 @@ import retrofit2.HttpException
                 items(searchResults) { result ->
                     val latitude = result.lat.toDouble()
                     val longitude = result.lon.toDouble()
+                    val name = result.name
                     var geoPoint =GeoPoint(latitude, longitude)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                onLocation(geoPoint)
+                                destinationLocationViewModel.updateDestinationLocation(geoPoint, name)
                                 active = false
                             }
                             .padding(8.dp),
