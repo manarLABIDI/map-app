@@ -30,30 +30,6 @@ fun locationIcon() {
 }
 
 
-@Composable
-fun mylocationIcon(modifier: Modifier = Modifier) {
-    Icon(
-        painter = painterResource(id = R.drawable.ic_location),
-        tint = SkyBlueColor,
-        contentDescription = "Location Icon",
-        modifier = modifier
-            .size(72.dp)
-            .padding(16.dp)
-    )
-}
 
 
 
-@Composable
-fun floatingLocationIcon(onClick: () -> Unit) {
-    FloatingActionButton(
-        onClick = { onClick() },
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_location),
-            tint = SkyBlueColor,
-            contentDescription = "Location Icon",
-
-            )
-    }
-}

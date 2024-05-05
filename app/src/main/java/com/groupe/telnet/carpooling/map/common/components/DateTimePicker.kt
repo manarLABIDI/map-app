@@ -1,17 +1,14 @@
 package com.groupe.telnet.carpooling.map.common.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.groupe.telnet.carpooling.map.common.iconButtons.calenderButton
-import com.groupe.telnet.carpooling.map.common.iconButtons.locationIcon
-import com.groupe.telnet.carpooling.map.ui.theme.BackgroundColor
 import com.groupe.telnet.carpooling.map.utils.CustomOutlinedTextField
 import com.groupe.telnet.carpooling.map.utils.TimePickerDialog
 import java.time.Instant
@@ -20,13 +17,14 @@ import java.time.ZoneId
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun DateTime() {
+fun DateTime(/*rideRequestViewModel: RideRequestViewModel = hiltViewModel()*/) {
 
     val pickedDate = rememberDatePickerState()
     val pickedTime = rememberTimePickerState()
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
     var dateFieldText by remember { mutableStateOf("") }
+   // val date = rideRequestViewModel.dateState.value
     Surface(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier

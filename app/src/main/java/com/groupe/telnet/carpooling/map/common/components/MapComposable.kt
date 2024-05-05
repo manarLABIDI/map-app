@@ -1,28 +1,19 @@
 package com.groupe.telnet.carpooling.map.common.components
 
 import android.content.Context
-
-import android.graphics.Rect
 import android.widget.FrameLayout
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
-import com.groupe.telnet.carpooling.map.R
 import com.groupe.telnet.carpooling.map.common.iconButtons.addMarkertoMap
 import com.groupe.telnet.carpooling.map.presentation.viewModel.DestinationLocationViewModel
-import com.groupe.telnet.carpooling.map.presentation.viewModel.MapViewModel
-import com.groupe.telnet.carpooling.map.presentation.viewModel.RoadPathViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -35,14 +26,12 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 @Composable
 fun MapComposable(
-    mapViewModel : MapViewModel = hiltViewModel()
 ) {
 
     val destinationLocationViewModel : DestinationLocationViewModel = hiltViewModel()
-    val roadPathViewModel: RoadPathViewModel = hiltViewModel()
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val destinationLocation by destinationLocationViewModel.endPoint.collectAsState()
+   // val destinationLocation by destinationLocationViewModel.endPoint.collectAsState()
 
     val mapView = remember { MapView(context) }
     var mapCenter by rememberSaveable { mutableStateOf(GeoPoint(36.84924, 10.19023)) }
@@ -55,10 +44,6 @@ fun MapComposable(
 
             override fun longPressHelper(p: GeoPoint?): Boolean {
                 p?.let { location ->
-                   // mapView.overlays.removeAll { it is Polyline }
-//                    mapView.overlays.removeAll { it is Marker }
-//
-//                    mapView.addMarkertoMap(context, location)
                     destinationLocationViewModel.updateDestinationLocation(location)
 
                     return true
@@ -74,23 +59,15 @@ fun MapComposable(
     observeLifecycle(mapView, lifecycleOwner)
 
     LaunchedEffect(Unit) {
-        roadPathViewModel.polylineFlow.collectLatest { polyline ->
-            mapView.overlays.removeAll { it is Polyline }
-            mapView.overlays.add(polyline)
+        destinationLocationViewModel.destinationEvent.collectLatest { destination ->
+            mapView.overlays.removeAll { it is Marker }
+            mapView.addMarkertoMap(context, destination)
+            mapView.controller.animateTo(destination)
 
         }
     }
 
 
-    //LaunchedEffect(destinationLocation) {
-    if (destinationLocation != null) {
-        mapView.overlays.removeAll { it is Marker }
-        mapView.addMarkertoMap(context, destinationLocation!!)
-        mapView.controller
-            .setCenter(destinationLocation)
-
-        }
-    //}
 
 
     AndroidView(factory = { mapView })
@@ -103,6 +80,7 @@ fun setupMap(
     mapEventsOverlay: MapEventsOverlay
 ) {
     mapView.apply {
+        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context))
         layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT

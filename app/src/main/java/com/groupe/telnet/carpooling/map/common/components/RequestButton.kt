@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.groupe.telnet.carpooling.map.ui.theme.SkyBlueColor
 
 @Composable
-fun ValidationButton(onClick: () -> Unit) {
+fun RequestButton(onClick: () -> Unit) {
 
     Button(
         onClick = {

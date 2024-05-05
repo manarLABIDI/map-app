@@ -39,4 +39,15 @@ object AppModule {
     fun providesNominatimApi(retrofit: Retrofit): SearchApi {
         return retrofit.create(SearchApi::class.java)
     }
+
+//    @Provides
+//    @Singleton
+//    fun providesRideRepository(): RideRepository {
+//        return RideRepository(  )
+//    }
+//    @Provides
+//    @Singleton
+//    fun providesRideRequestUseCase(repository: RideRepository): RideRequestUseCase {
+//        return RideRequestUseCase(repository)
+//    }
 }

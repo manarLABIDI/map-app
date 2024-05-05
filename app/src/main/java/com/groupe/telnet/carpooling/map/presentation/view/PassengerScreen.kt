@@ -23,7 +23,8 @@ fun PassengerScreen() {
 
             NavigationBottomSheetScaffold() { paddingValues ->
                 Box(Modifier.padding(paddingValues)) {
-                    MapComposable()
+                   MapComposable()
+
                 }
             }
         }

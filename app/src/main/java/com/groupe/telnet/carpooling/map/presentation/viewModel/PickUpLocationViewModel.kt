@@ -41,8 +41,9 @@ class PickUpLocationViewModel @Inject constructor() : ViewModel() {
         anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION],
     )
     fun fetchCurrentLocation(context: Context) {
-        val locationClient = LocationServices.getFusedLocationProviderClient(context)
+
         viewModelScope.launch(Dispatchers.IO) {
+            val locationClient = LocationServices.getFusedLocationProviderClient(context)
                 val priority = if (permissions.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     Priority.PRIORITY_HIGH_ACCURACY
                 } else {

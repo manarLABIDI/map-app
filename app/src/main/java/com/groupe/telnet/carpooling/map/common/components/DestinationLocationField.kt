@@ -13,7 +13,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.groupe.telnet.carpooling.map.common.iconButtons.locationIcon
 import com.groupe.telnet.carpooling.map.presentation.viewModel.DestinationLocationViewModel
 import com.groupe.telnet.carpooling.map.presentation.viewModel.LocationSearchViewModel
-import com.groupe.telnet.carpooling.map.presentation.viewModel.MapViewModel
 import com.groupe.telnet.carpooling.map.utils.CustomOutlinedTextField
 
 @RequiresApi(Build.VERSION_CODES.Q)
